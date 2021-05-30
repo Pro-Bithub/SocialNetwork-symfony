@@ -29,11 +29,21 @@ class TagRepository extends ServiceEntityRepository
      */
     public function findBySearch($search) : array
     {
+/*   */
+$query =$this->createQueryBuilder('c')
+        ->where("c.name LIKE :search")
+        ->setParameter('search','%' . $search['tag']. '%')
+        ->getQuery();
+  
+    
 
-        return $this->createQueryBuilder('c')
-                    ->where("c.name LIKE :search")
-                    ->setParameter('search','%' . $search['tag']. '%')
-                    ->getQuery()
-                    ->getResult();
+        
+    try {
+        return $query->getResult();
+    }
+    catch(\Exception $e) {
+        throw new \Exception('problème '. $e->getMessage());
+    }
+
     }
 }

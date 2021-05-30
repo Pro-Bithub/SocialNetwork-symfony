@@ -29,11 +29,11 @@ class FileUploader
     public function upload(UploadedFile $file)
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $safeFilename = transliterator_transliterate(
+    /*     $safeFilename = transliterator_transliterate(
             'Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()',
             $originalFilename
-        );
-        $fileName = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+        ); */
+        $fileName = $originalFilename . '-' . uniqid() . '.' . $file->guessExtension();
 
         try {
             $file->move($this->getTargetDirectory(), $fileName);

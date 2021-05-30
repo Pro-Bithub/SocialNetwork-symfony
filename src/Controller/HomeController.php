@@ -32,13 +32,24 @@ class HomeController extends AbstractController
         $form = $this->createForm(PostsSearchType::class)->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $posts = $paginator->paginate(
+          /*   $posts = $paginator->paginate(
                 $repoTag->findBySearch($form->getData()),
+                $request->query->getInt('page', 1),
+                5
+            ); 
+            return $this->render('search/result.html.twig', ['posts' => $posts]);*/
+            $posts = $paginator->paginate(
+                $repo->findByAll(),
                 $request->query->getInt('page', 1),
                 5
             );
 
-            return $this->render('search/result.html.twig', ['posts' => $posts]);
+            return $this->render('reseaus/index.html.twig', [
+                'controller_name' => 'ReseausController',
+                'posts' => $posts,
+                'form' => $form->createView()
+    
+            ]);
         }
 
         $posts = $paginator->paginate(

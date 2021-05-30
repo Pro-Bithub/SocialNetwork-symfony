@@ -32,4 +32,23 @@ class PostRepository extends ServiceEntityRepository
     }
 
 
+     /**
+     * @return Query
+     */
+    public function findBySearch($search) : array
+    {
+    $query =$this->createQueryBuilder('c')
+            ->where("c.content LIKE :search")
+            ->setParameter('search','%' . $search['tag']. '%')
+            ->getQuery();
+    try {
+        return $query->getResult();
+    }
+    catch(\Exception $e) {
+        throw new \Exception('problème '. $e->getMessage());
+    }
+
+    }
+
+
 }
